@@ -288,7 +288,7 @@ public class RpslObject implements Identifiable, ResponseObject {
         final Set<CIString> values = Sets.newLinkedHashSet();
         for (AttributeType attrType : attributeType) {
             final List<RpslAttribute> rpslAttributes = getOrCreateCache().get(attrType);
-            if (!rpslAttributes.isEmpty()) {
+            if (rpslAttributes != null && !rpslAttributes.isEmpty()) {
                 for (RpslAttribute rpslAttribute : rpslAttributes) {
                     values.addAll(rpslAttribute.getCleanValues());
                 }
