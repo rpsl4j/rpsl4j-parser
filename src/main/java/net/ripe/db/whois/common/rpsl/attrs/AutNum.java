@@ -20,6 +20,14 @@ public class AutNum {
         return value;
     }
 
+    public boolean equals(Object other)
+    {
+    	if(other == null || !(other instanceof AutNum)) //sanity check
+    		return false;
+    	else
+    		return this.getValue()== ((AutNum)other).getValue(); //check equality of returned longs
+    }
+    
     public static AutNum parse(final CIString value) {
         return parse(value.toString());
     }

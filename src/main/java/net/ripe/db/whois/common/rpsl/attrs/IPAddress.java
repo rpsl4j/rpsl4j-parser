@@ -15,6 +15,17 @@ public class IPAddress {
         return ipInterval;
     }
 
+    public boolean equals(Object other)
+    {
+    	if(other == null || !(other instanceof IPAddress)) //sanity check
+    		return false;
+    	else
+    		return this.ipInterval.equals(((IPAddress)other).ipInterval);
+    	
+    	//IpInterval is abstract, and only extended by Ipv4Resource and Ipv6Resource,
+    	//which both implement equality properly
+    }
+    
     public static IPAddress parse(final CIString value) {
         return parse(value.toString());
     }
