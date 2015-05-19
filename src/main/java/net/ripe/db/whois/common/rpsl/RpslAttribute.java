@@ -2,16 +2,21 @@ package net.ripe.db.whois.common.rpsl;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
+
 import net.ripe.db.whois.common.domain.CIString;
 import net.ripe.db.whois.common.rpsl.attrs.MntRoutes;
+
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.concurrent.Immutable;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static net.ripe.db.whois.common.domain.CIString.ciImmutableSet;
@@ -67,6 +72,15 @@ public final class RpslAttribute {
             extractCleanValueAndComment(value);
         }
         return cleanComment;
+    }
+    
+    /**
+     * Return the list of tokens captured by {@link AttributeLexerWrapper} in the attribute instance
+     * @see AttributeLexerWrapper#parse(java.io.Reader)
+	 * @throws ClassNotFoundException no lexer/parser class exists for this attribute type
+     */
+    public List<Pair<String, List<String>>> getTokenList() throws ClassNotFoundException {
+    	return AttributeLexerWrapper.parse(this);
     }
 
     public CIString getCleanValue() {
