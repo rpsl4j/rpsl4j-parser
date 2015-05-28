@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -76,11 +77,15 @@ public final class RpslAttribute {
     
     /**
      * Return the list of tokens captured by {@link AttributeLexerWrapper} in the attribute instance
+     * If the attribute has no parser class, an empty list is returned
      * @see AttributeLexerWrapper#parse(java.io.Reader)
-	 * @throws ClassNotFoundException no lexer/parser class exists for this attribute type
      */
-    public List<Pair<String, List<String>>> getTokenList() throws ClassNotFoundException {
-    	return AttributeLexerWrapper.parse(this);
+    public List<Pair<String, List<String>>> getTokenList() {
+    	try {
+			return AttributeLexerWrapper.parse(this);
+		} catch (ClassNotFoundException e) {
+			return new LinkedList<Pair<String, List<String>>>();
+		}
     }
 
     public CIString getCleanValue() {

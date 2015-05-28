@@ -85,7 +85,13 @@ public class AttributeLexerWrapperTest {
 	@Test(expected=ClassNotFoundException.class)
 	public void throwsOnMissingLexerClass() throws ClassNotFoundException {
 		RpslAttribute attr = new RpslAttribute(AttributeType.ADDRESS, "1 Road Street, Town");
-		attr.getTokenList().toString();
+		AttributeLexerWrapper.parse(attr);
+	}
+	
+	@Test
+	public void emptyonAttributeMissingLexerClass() throws ClassNotFoundException {
+		RpslAttribute attr = new RpslAttribute(AttributeType.ADDRESS, "1 Road Street, Town");
+		assertTrue("Token list for attribute without lexer should be empty", attr.getTokenList().size() == 0);
 	}
 	
 	public void parseAttribute() throws ClassNotFoundException {
