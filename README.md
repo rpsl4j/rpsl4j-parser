@@ -20,3 +20,5 @@ Routing Policy Specification Language implementation for Java
   5. Check the staging repository [OSSRH](https://oss.sonatype.org/)
     + To deploy to the central repository: `mvn nexus-staging:release`
     + To drop the staged release: `mvn nexus-staging:drop`
+
+__note:__ versions ending in -SNAPSHOT will be uploaded the the snapshot repository on deploy. These can be checked at [OSSRH](https://oss.sonatype.org/) and cannot be promoted to release or dropped.
