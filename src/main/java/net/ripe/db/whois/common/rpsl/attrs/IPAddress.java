@@ -15,15 +15,25 @@ public class IPAddress {
         return ipInterval;
     }
 
-    public boolean equals(Object other)
-    {
-    	if(other == null || !(other instanceof IPAddress)) //sanity check
+    public boolean equals(Object o) { //TODO: untested
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof IPAddress)) //sanity check
     		return false;
-    	else
-    		return this.ipInterval.equals(((IPAddress)other).ipInterval);
-    	
-    	//IpInterval is abstract, and only extended by Ipv4Resource and Ipv6Resource,
-    	//which both implement equality properly
+    	else {
+    		IPAddress that = (IPAddress) o;
+    		return ipInterval.equals(that.ipInterval);
+    		//IpInterval is abstract, and only extended by Ipv4Resource and Ipv6Resource,
+        	//which both implement equality properly.
+    	}
+    }
+    
+    public String toString() { //TODO: no tests yet
+    	return ipInterval.toString();
+    }
+    
+    public int hashCode() { //TODO: no tests yet
+    	return this.toString().hashCode();
     }
     
     public static IPAddress parse(final CIString value) {

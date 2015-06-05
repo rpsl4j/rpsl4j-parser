@@ -59,6 +59,21 @@ public class Changed {
         return result.toString();
     }
 
+    public int hashCode() {
+    	return this.toString().hashCode();
+    }
+    
+    public boolean equals(Object o) {
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof Changed))
+    		return false;
+    	else {
+    		Changed that = (Changed) o;
+    		return this.date.equals(that.date) && this.email.equals(that.email);
+    	}
+    }
+    
     public static Changed parse(final CIString value) {
         return parse(value.toString());
     }

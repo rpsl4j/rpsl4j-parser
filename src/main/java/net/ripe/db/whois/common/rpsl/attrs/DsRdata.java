@@ -42,6 +42,21 @@ public class DsRdata {
     public String toString() {
         return String.format("%d %d %d %s", keytag, algorithm, digestType, digestHexString);
     }
+    
+    public int hashCode() { //TODO: no tests yet
+    	return toString().hashCode();
+    }
+    
+    public boolean equals(Object o) { //TODO: no tests yet
+    	if (o == this)
+    		return true;
+    	if (o==null || !(o instanceof DsRdata))
+    		return false;
+    	else {
+    		final DsRdata that = (DsRdata) o;
+    		return keytag==that.keytag && algorithm==that.algorithm && digestType==that.digestType && digestHexString.equals(that.digestHexString);
+    	}
+    }
 
     public static DsRdata parse(final CIString value) {
         return parse(value.toString());

@@ -20,12 +20,27 @@ public class AutNum {
         return value;
     }
 
-    public boolean equals(Object other)
+    public boolean equals(Object o) //TODO: new and untested
     {
-    	if(other == null || !(other instanceof AutNum)) //sanity check
+    	if (o == this)
+    		return true;
+    	if(o == null || !(o instanceof AutNum))
     		return false;
-    	else
-    		return this.getValue()== ((AutNum)other).getValue(); //check equality of returned longs
+    	else {
+    		final AutNum that = (AutNum) o; 
+    		return value.equals(that.value);
+    	}
+    }
+    
+    public int hashCode()
+    {
+    	return this.toString().hashCode();
+    }
+    
+    
+    public String toString()
+    {
+    	return "AS"+value;
     }
     
     public static AutNum parse(final CIString value) {

@@ -31,6 +31,26 @@ public class Domain {
         this.isDashNotation = dashNotation;
     }
 
+    public String toString() { //TODO: no tests written yet
+    	return value.toString() + " " + reverseIp.toString() + " " + type.toString() + " " + isDashNotation;
+    }
+    
+    public boolean equals(Object o) { //TODO: write tests for this
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof Domain))
+    		return false;
+    	else {
+    		final Domain that = (Domain) o;
+    		return value.equals(that.value) && reverseIp.equals(that.reverseIp) && type.equals(that.type) && isDashNotation==that.isDashNotation;
+    		//note that CIString is case insensitive for equals(). This is probably a good thing here, given dns names are also case insensitive.. at least to cut a long story short..
+    	}
+    }
+    
+    public int hashCode() { //TODO: no tests yet 
+    	return toString().hashCode();
+    }
+    
     public CIString getValue() {
         return value;
     }

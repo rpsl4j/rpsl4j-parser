@@ -66,4 +66,23 @@ public final class RangeOperation {
     public Integer getM() {
         return m;
     }
+    
+    public int hashCode() { //TODO: untested
+    	return toString().hashCode();
+    }
+    
+    public String toString() { //TODO: untested
+    	return m + " " + n;
+    }
+    
+    public boolean equals(Object o) { //TODO: untested
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof RangeOperation))
+    		return false;
+    	else {
+    		final RangeOperation that = (RangeOperation) o;
+    		return m.equals(that.m) && n.equals(that.n);
+    	}
+    }
 }

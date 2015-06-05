@@ -6,6 +6,7 @@ import net.ripe.db.whois.common.domain.CIString;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +40,37 @@ public class MntRoutes {
         return addressPrefixRanges;
     }
 
+    public int hashCode() { //TODO: untested
+    	return toString().hashCode();
+    }
+    
+    public String toString() { //TODO: untested
+    	String ret = maintainer + " " + anyRange + " [";
+    	for(AddressPrefixRange a : addressPrefixRanges) {
+    		ret+= a.toString() + ", ";
+    	}
+    	return ret += "]";
+    }
+    
+    public boolean equals(Object o) { //TODO: untested
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof MntRoutes))
+    		return false;
+    	else {
+    		final MntRoutes that = (MntRoutes) o;
+    		
+    		//using HashSets here so as to disregard the order of the maintainer routes in the source lists.
+    		HashSet<AddressPrefixRange> thisAPR = new HashSet<AddressPrefixRange>();
+    		HashSet<AddressPrefixRange> thatAPR = new HashSet<AddressPrefixRange>();
+    		
+    		thisAPR.addAll(addressPrefixRanges);
+    		thatAPR.addAll(that.addressPrefixRanges);
+    		
+    		return maintainer.equals(that.maintainer) && anyRange==that.anyRange && thisAPR.equals(thatAPR);
+    	}
+    }
+    
     public static MntRoutes parse(final CIString value) {
         return parse(value.toString());
     }

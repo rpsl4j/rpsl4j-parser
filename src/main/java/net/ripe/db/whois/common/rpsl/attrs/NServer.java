@@ -52,6 +52,22 @@ public final class NServer {
         return s.toString();
     }
 
+    public int hashCode(){ //TODO: untested
+    	return toString().hashCode();
+    }
+    
+    public boolean equals(Object o) { //TODO: untested
+    	if(o==this)
+    		return true;
+    	if(o==null || !(o instanceof NServer))
+    		return false;
+    	else {
+    		final NServer that = (NServer) o;
+    		return hostname.equals(that.hostname) && ipInterval.equals(that.ipInterval); //case insensitive hostname
+    		//Ipv4Resource and Ipv6Resource - the only extenders of IpInterval - implement equality properly
+    	}
+    }
+    
     public static NServer parse(final CIString value) {
         return parse(value.toString());
     }
