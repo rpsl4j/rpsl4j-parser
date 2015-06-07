@@ -51,6 +51,28 @@ public class SetObject {
         this.value = value;
     }
 
+    @Override
+    public int hashCode() {
+    	return toString().hashCode();
+    }
+    
+    @Override
+    public String toString() {
+    	return type + " " + value;
+    }
+    
+    @Override
+    public boolean equals(final Object o) {
+    	if(o==this)
+    		return true;
+    	if(o==null || !(o instanceof SetObject))
+    		return false;
+    	else {
+    		final SetObject that = (SetObject) o;
+    		return type.equals(that.type) && value.equals(that.value);
+    	}
+    }
+    
     public static SetObject parse(final Type type, final CIString value) {
         return parse(type, value.toString());
     }

@@ -7,6 +7,7 @@ import net.ripe.db.whois.common.ip.Ipv6Resource;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.concurrent.Immutable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -31,11 +32,13 @@ public class Domain {
         this.isDashNotation = dashNotation;
     }
 
+    @Override
     public String toString() { //TODO: no tests written yet
-    	return value.toString() + " " + reverseIp.toString() + " " + type.toString() + " " + isDashNotation;
+    	return value.toString() + "(" + reverseIp.toString() + " " + type.toString() + " " + (isDashNotation ? "dashed" : "not-dashed") + ")";
     }
     
-    public boolean equals(Object o) { //TODO: write tests for this
+    @Override
+    public boolean equals(final Object o) { //TODO: write tests for this
     	if(o == this)
     		return true;
     	if(o == null || !(o instanceof Domain))
@@ -47,6 +50,7 @@ public class Domain {
     	}
     }
     
+    @Override
     public int hashCode() { //TODO: no tests yet 
     	return toString().hashCode();
     }

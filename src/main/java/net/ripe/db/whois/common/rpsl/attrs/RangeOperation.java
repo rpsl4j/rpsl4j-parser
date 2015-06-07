@@ -67,15 +67,18 @@ public final class RangeOperation {
         return m;
     }
     
+    @Override
     public int hashCode() { //TODO: untested
     	return toString().hashCode();
     }
     
+    @Override
     public String toString() { //TODO: untested
     	return m + " " + n;
     }
     
-    public boolean equals(Object o) { //TODO: untested
+    @Override
+    public boolean equals(final Object o) { //TODO: untested
     	if(o == this)
     		return true;
     	if(o == null || !(o instanceof RangeOperation))

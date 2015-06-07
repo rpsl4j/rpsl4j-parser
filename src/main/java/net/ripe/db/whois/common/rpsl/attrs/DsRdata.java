@@ -1,6 +1,7 @@
 package net.ripe.db.whois.common.rpsl.attrs;
 
 import net.ripe.db.whois.common.domain.CIString;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.util.regex.Matcher;
@@ -43,11 +44,13 @@ public class DsRdata {
         return String.format("%d %d %d %s", keytag, algorithm, digestType, digestHexString);
     }
     
+    @Override
     public int hashCode() { //TODO: no tests yet
     	return toString().hashCode();
     }
     
-    public boolean equals(Object o) { //TODO: no tests yet
+    @Override
+    public boolean equals(final Object o) { //TODO: no tests yet
     	if (o == this)
     		return true;
     	if (o==null || !(o instanceof DsRdata))
