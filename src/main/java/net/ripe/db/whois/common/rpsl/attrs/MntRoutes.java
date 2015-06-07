@@ -49,23 +49,18 @@ public class MntRoutes {
     public String toString() { //TODO: untested
     	String ret = maintainer + " " + anyRange;
 
-    	if(addressPrefixRanges.size() > 3) { //if few, list them
-    		ret += " [";
-    		for(int i=0; i<3; i++) {
-    			if(i!=0) //add trailing commas after all but first index
+    	long hashSum = 0;
+    	ret += " [";
+    	
+    	for(int i=0; i<addressPrefixRanges.size(); i++) {
+    		if(i<3) { //print first 3 entries, return hash sum of all
+    			if(i!=0)
     				ret += ", ";
     			ret += "(" + addressPrefixRanges.get(i).toString() + ")";
     		}
-    		ret += "]";
-    		
-    	} else { //don't list; just compute hash sum
-    		ret += " addr_prefix_range_hash_total:";
-    		long hashSum = 0;
-        	for(AddressPrefixRange a : addressPrefixRanges) {
-        		hashSum += a.hashCode(); //summing hashCodes is the technique normally used by HashSet, and we don't care about list order
-        	}
-        	ret += hashSum; //implicit toString and concat
+    		hashSum += addressPrefixRanges.get(i).hashCode();
     	}
+    	ret += "] summed_hashes:" + hashSum;
     	return ret;
     }
     
