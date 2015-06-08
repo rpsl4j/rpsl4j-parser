@@ -42,26 +42,27 @@ public class MntRoutes {
 
     @Override
     public int hashCode() { //TODO: untested
-    	return toString().hashCode();
+    	long hashSum = 0;
+    	for(AddressPrefixRange a : addressPrefixRanges) {
+    		hashSum += a.hashCode(); //compute hash sum manually, to simulate the behaviour of hashSet; ignore list order
+    	}
+    	return (toString() + hashSum).hashCode(); //combine as strings, then hash
     }
     
     @Override
     public String toString() { //TODO: untested
-    	String ret = maintainer + " " + anyRange;
-
-    	long hashSum = 0;
-    	ret += " [";
+    	String ret = maintainer + " " + anyRange + " [";
     	
-    	for(int i=0; i<addressPrefixRanges.size(); i++) {
-    		if(i<3) { //print first 3 entries, return hash sum of all
-    			if(i!=0)
-    				ret += ", ";
-    			ret += "(" + addressPrefixRanges.get(i).toString() + ")";
-    		}
-    		hashSum += addressPrefixRanges.get(i).hashCode();
+    	for(int i=0; i<3 && i<addressPrefixRanges.size(); i++) {
+			if(i!=0)
+				ret += ", ";
+			ret += "(" + addressPrefixRanges.get(i).toString() + ")";
     	}
-    	ret += "] summed_hashes:" + hashSum;
-    	return ret;
+    	
+    	if(addressPrefixRanges.size() > 3) //if more records than those listed, add dots
+    		return ret + ", ...]";
+    	else
+    		return ret + "]";
     }
     
     @Override
