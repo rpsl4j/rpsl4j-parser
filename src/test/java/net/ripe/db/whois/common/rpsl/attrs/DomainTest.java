@@ -2,21 +2,71 @@ package net.ripe.db.whois.common.rpsl.attrs;
 
 import net.ripe.db.whois.common.ip.Ipv4Resource;
 import net.ripe.db.whois.common.ip.Ipv6Resource;
+
 import org.junit.Test;
 
 import static net.ripe.db.whois.common.domain.CIString.ciString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class DomainTest {
 
+	
+	//for equality and hashcode tests
+	
+	//ipv4
+	private static final Domain domain1 = Domain.parse("200.193.193.in-addr.arpa");
+	private static final Domain domain1_2 = Domain.parse("200.193.193.in-addr.arpa");
+	private static final Domain domain2 = Domain.parse("200.193.190.in-addr.arpa"); //address differs
+	
+	//ipv6
+	private static final Domain domain4 = Domain.parse("2.1.2.1.5.5.5.2.0.2.1.e164.arpa");
+	private static final Domain domain4_2 = Domain.parse("2.1.2.1.5.5.5.2.0.2.1.e164.arpa");
+	private static final Domain domain5 = Domain.parse("2.1.2.1.5.1.5.2.0.2.1.e164.arpa"); //TODO: Assuming that's valid for ipv6.. different address, same type hopefully
+	private static final Domain domain6 = Domain.parse("0.0.0.0.8.f.7.0.1.0.0.2.IP6.ARPA");
+	private static final Domain domain7 = Domain.parse("2.1.2.1.5.5.5.2.0.2.1.IP6.ARPA"); //probably going to fail parsing.. and didn't.. 
+	
+	
     @Test(expected = AttributeParseException.class)
     public void empty() {
         Domain.parse("");
     }
 
+    @Test
+    public void testEquals() {
+    	assertTrue("equals(this) should be true", domain1.equals(domain1));
+    	assertTrue("equals(object of same values) should be true", domain1.equals(domain1_2));
+    	assertFalse("different domains shouldn't be equal", domain1.equals(domain2));
+    	
+    	assertFalse("Ipv4 and ipv6 domains should not be considered equal", domain1.equals(domain4) || domain4.equals(domain1)); //not that that's foolproof to test thoroughly..
+    	
+    	assertFalse("Different domain types shouldn't be considered equal", domain4.equals(domain7));
+    	
+    	assertTrue("(ipv6) Identical domains should be considered equal", domain4.equals(domain4_2));
+    	
+    	assertFalse("equals(null) should be false", domain1.equals(null));
+    	assertFalse("equals(different type) should be false", domain1.equals("Hello world"));
+    }
+    
+    @Test
+    public void testHashCode() {
+    	assertTrue("(ipv4)Identical domains should have matching hashcodes", domain1.hashCode()==domain1_2.hashCode());
+    	assertFalse("(ipv4)Different domains hashcodes shouldn't match", domain1.hashCode()==domain2.hashCode());
+    	
+    	assertTrue("(ipv6) Identical domains should have matching hashcodes", domain4.hashCode()==domain4_2.hashCode());
+    	assertFalse("(ipv6) Different domains shouldn't have matching hashcodes", domain4.hashCode()==domain5.hashCode() || domain5.hashCode()==domain4.hashCode());
+    }
+    
+    @Test
+    public void testToString() {
+    	assertTrue("(ipv4) toString should return expected format", domain1.toString().equals("200.193.193.in-addr.arpa(193.193.200.0/24 INADDR not-dashed)"));
+    	assertTrue("(ipv6) toString should return expected format", domain4.toString().equals("2.1.2.1.5.5.5.2.0.2.1.e164.arpa(E164 not-dashed)"));
+    }
+    
     @Test
     public void valid_ipv4() {
         final Domain domain = Domain.parse("200.193.193.in-addr.arpa");

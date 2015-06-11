@@ -33,8 +33,11 @@ public class Domain {
     }
 
     @Override
-    public String toString() { //TODO: no tests written yet
-    	return value.toString() + "(" + reverseIp.toString() + " " + type.toString() + " " + (isDashNotation ? "dashed" : "not-dashed") + ")";
+    public String toString() { //TODO: no tests written yet. Edit: reverseIP apparently not set for ipv6 addresses. Updated..
+    	if(type.equals(Type.E164))
+    		return value.toString() + "(" + type.toString() + " " + (isDashNotation ? "dashed" : "not-dashed") + ")";
+    	else
+    		return value.toString() + "(" + reverseIp.toString() + " " + type.toString() + " " + (isDashNotation ? "dashed" : "not-dashed") + ")";
     }
     
     @Override
@@ -45,7 +48,15 @@ public class Domain {
     		return false;
     	else {
     		final Domain that = (Domain) o;
-    		return value.equals(that.value) && reverseIp.equals(that.reverseIp) && type.equals(that.type) && isDashNotation==that.isDashNotation;
+    		//TODO: DEBUGGING
+    		//System.out.println("Null list for entity'" + value + "':" + (value==null?"value ":" ")+(reverseIp==null?"reverseIp ":" ")+(type==null?"type ":" "));
+    		
+    		//in the case of ipv6 addresses, reverseIp will not be available.. it seems
+    		//if(reverseIp==null)
+    		if(type.equals(Type.E164)) //if E164, reverseIP will not apply
+    			return value.equals(that.value) && type.equals(that.type) && isDashNotation==that.isDashNotation;
+    		else
+    			return value.equals(that.value) && reverseIp.equals(that.reverseIp) && type.equals(that.type) && isDashNotation==that.isDashNotation;
     		//note that CIString is case insensitive for equals(). This is probably a good thing here, given dns names are also case insensitive.. at least to cut a long story short..
     	}
     }

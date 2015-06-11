@@ -2,10 +2,13 @@ package net.ripe.db.whois.common.rpsl.attrs;
 
 import net.ripe.db.whois.common.ip.Ipv4Resource;
 import net.ripe.db.whois.common.ip.Ipv6Resource;
+
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class AddressPrefixRangeTest {
 
@@ -29,6 +32,36 @@ public class AddressPrefixRangeTest {
         AddressPrefixRange.parse("2a00:c00::/129");
     }
 
+    @Test
+    public void equal() { //TODO: check over this later
+    	final AddressPrefixRange range1 = AddressPrefixRange.parse("194.104.182.0/24^+");
+    	final AddressPrefixRange range2 = AddressPrefixRange.parse("194.104.122.0/24^+");
+    	final AddressPrefixRange range3 = AddressPrefixRange.parse("194.104.182.0/24^+"); //should equal range1
+    	final AddressPrefixRange range4 = AddressPrefixRange.parse("194.104.182.0/16^+"); //different prefix.. //TODO: check if there are prefixes for which the ^+ etc doesn't work..
+    	
+    	assertTrue("Equal ranges should match under equals()", range1.equals(range3) && range3.equals(range1)); //must match and be transitive.. no.. commutative.. is that the right term..
+    	//assertTrue("Unequal ranges should not match under equals()", (!range2.equals(range1)) && (!range1.equals(range2)));
+    	assertFalse("Unequal ranges should not match under equals()", range2.equals(range1) || range1.equals(range2));
+    	
+    	assertFalse("Unequal prefixes should cause ranges not to match under equals()", range1.equals(range4) || range4.equals(range1));
+    	
+    	//simple stuff
+    	assertFalse("Comparisions with null should return false", range1.equals(null));
+    	assertFalse("Comparisions with other object types should return false", range1.equals("Hello world"));
+    	assertTrue("Comparisions between the same object should return true", range1.equals(range1) && range2.equals(range2) && range4.equals(range4));
+    }
+    
+    @Test
+    public void hashCodeTest() { //TODO: check over this later
+    	final AddressPrefixRange range1 = AddressPrefixRange.parse("194.104.182.0/24^+");
+    	final AddressPrefixRange range2 = AddressPrefixRange.parse("194.104.122.0/24^+");
+    	final AddressPrefixRange range3 = AddressPrefixRange.parse("194.104.182.0/24^+"); //should equal range1
+    	final AddressPrefixRange range4 = AddressPrefixRange.parse("194.104.182.0/16^+"); 
+    	
+    	assertTrue("Hashcodes should match for equal valued objects", range1.hashCode()==range3.hashCode());
+    	assertFalse("Hashcodes should not match for unequally valued objects", range1.hashCode()==range2.hashCode() || range1.hashCode()==range4.hashCode());
+    }
+    
     @Test
     public void operation_inclusive() {
         final AddressPrefixRange subject = AddressPrefixRange.parse("194.104.182.0/24^+");
