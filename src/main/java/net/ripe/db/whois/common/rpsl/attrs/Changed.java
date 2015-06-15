@@ -62,12 +62,12 @@ public class Changed {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode() { //TODO: this is new code I think
     	return this.toString().hashCode();
     }
     
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(final Object o) { //TODO: this is new code I think
     	if(o == this)
     		return true;
     	if(o == null || !(o instanceof Changed))
