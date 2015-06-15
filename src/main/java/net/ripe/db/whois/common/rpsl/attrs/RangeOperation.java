@@ -21,14 +21,20 @@ public final class RangeOperation {
             throw new AttributeParseException("Invalid range operation", value);
         }
 
-        if (value.startsWith("^-")) {
-            return new RangeOperation(prefixLength + 1, maxRange);
+        //more specifics modes (^- and ^+): specify addresses more specific than the current, ^- excluding it, ^+ including it.
+        //eg 1.1.1.1/8^- will also match 1.2.3.4/24, because the mask is *higher*, and the network portion matched by the original address mask (/8), is the same (1.x.x.x)
+        
+        if (value.startsWith("^-")) { //exclusive more specifics operator
+            return new RangeOperation(prefixLength + 1, maxRange); //any prefix more specific than the current (so +1) and within the max length of the address type (eg 32 for ipv4)
         }
 
-        if (value.startsWith("^+")) {
+        if (value.startsWith("^+")) { //inclusive more specifics operator
             return new RangeOperation(prefixLength, maxRange);
         }
 
+        
+        //move on to length specified modes (^n and ^n-m)
+        
         final Integer n = Integer.parseInt(matcher.group(1));
         if (n < prefixLength) {
             throw new AttributeParseException("n cannot be smaller than prefix length", value);
@@ -38,11 +44,14 @@ public final class RangeOperation {
             throw new AttributeParseException("n cannot be larger than max range" + n, value);
         }
 
+        //look for ^n-m mode, and return with ^n mode if we don't find m.
         final Integer m = matcher.group(2) == null ? null : Integer.parseInt(matcher.group(2));
         if (m == null) {
             return new RangeOperation(n, n);
         }
 
+        //validate m and return.
+        
         if (m > maxRange) {
             throw new AttributeParseException("Invalid m: " + m, value);
         }
@@ -74,7 +83,7 @@ public final class RangeOperation {
     
     @Override
     public String toString() { //TODO: untested
-    	return m + " " + n;
+    	return "RangeOperation [n:" + n + " m:" + m + "]";
     }
     
     @Override

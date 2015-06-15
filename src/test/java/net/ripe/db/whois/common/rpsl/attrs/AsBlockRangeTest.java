@@ -6,7 +6,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class AsBlockRangeTest {
-    @Test
+	
+	@Test
+	public void testHashCode() {
+		final AsBlockRange range1_1 = AsBlockRange.parse("AS1-as40");
+		final AsBlockRange range1_2 = AsBlockRange.parse("as1- As40");
+		final AsBlockRange range2 = AsBlockRange.parse("as2- As40");
+		final AsBlockRange range3 = AsBlockRange.parse("as1- As39");
+		assertTrue("Equivalent AsBlockRanges should have matching hashcodes", range1_1.hashCode()==range1_2.hashCode());
+		assertFalse("Differing AsBlockRanges should have different hashcodes", range1_1.hashCode()==range2.hashCode() || range1_1.hashCode()==range3.hashCode());
+	}
+	
+	@Test
+	public void testToString() {
+		assertTrue(AsBlockRange.parse("AS1-AS30").toString().equals("AsBlockRange (1-30)"));
+	}
+	
+	@Test
     public void validAsBlockRanges() {
         checkAsBlockRange(AsBlockRange.parse("AS1-AS2"), 1, 2);
         checkAsBlockRange(AsBlockRange.parse("as1-as2"), 1, 2);

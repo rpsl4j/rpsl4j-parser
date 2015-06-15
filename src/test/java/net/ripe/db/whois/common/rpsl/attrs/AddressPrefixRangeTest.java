@@ -63,6 +63,12 @@ public class AddressPrefixRangeTest {
     }
     
     @Test
+    public void testToString() { //not testing new code, and operation of toString is very elementary in this case.
+    	final AddressPrefixRange range1 = AddressPrefixRange.parse("194.104.182.0/24^+");
+    	assertTrue("Tostring should format as expected", range1.toString().equals("194.104.182.0/24^+"));
+    }
+    
+    @Test
     public void operation_inclusive() {
         final AddressPrefixRange subject = AddressPrefixRange.parse("194.104.182.0/24^+");
 

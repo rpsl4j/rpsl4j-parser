@@ -51,6 +51,11 @@ public final class AsBlockRange {
         return result;
     }
 
+    @Override
+    public String toString() { //TODO: new code
+    	return "AsBlockRange (" + begin + "-" + end + ")";
+    }
+    
     public boolean contains(final AsBlockRange asBlockRange) {
         return asBlockRange.begin >= begin && asBlockRange.end <= end;
     }
