@@ -2,15 +2,36 @@ package net.ripe.db.whois.common.rpsl.attrs;
 
 import net.ripe.db.whois.common.ip.Ipv4Resource;
 import net.ripe.db.whois.common.ip.Ipv6Resource;
+
 import org.junit.Test;
 
 import static net.ripe.db.whois.common.domain.CIString.ciString;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class NServerTest {
-    @Test(expected = AttributeParseException.class)
+    
+	private static final NServer nServer1_1 = NServer.parse("dns.comcor.ru 194.0.0.0");
+	private static final NServer nServer1_2 = NServer.parse("dns.comcor.ru 194.0.0.0");
+	private static final NServer nServer2 = NServer.parse("dns.somedomain.com 200.0.0.0");
+	
+	@Test
+	public void testEquals() {
+		assertTrue("Equivalent NServer objects should be equal", nServer1_1.equals(nServer1_2) && nServer1_2.equals(nServer1_1));
+		assertFalse("Differing NServer objects should be unequal", nServer1_1.equals(nServer2) || nServer2.equals(nServer1_2));
+	}
+	
+	@Test
+	public void testHashCode() {
+		assertTrue("Equivalent NServers should have matching hashcodes", nServer1_1.hashCode()==nServer1_2.hashCode());
+		assertFalse("Differing NServers should have different hashcodes", nServer1_1.hashCode()==nServer2.hashCode());
+	}
+	
+	
+	@Test(expected = AttributeParseException.class)
     public void empty() {
         NServer.parse("");
     }
