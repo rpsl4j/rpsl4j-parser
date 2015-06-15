@@ -51,18 +51,26 @@ public class MntRoutes {
     
     @Override
     public String toString() { //TODO: untested
-    	String ret = maintainer + " " + anyRange + " [";
+    	String ret = "MntRoutes (maintainer:" + maintainer + ", anyRange:" + (anyRange?"yes)":"no) {");
     	
     	for(int i=0; i<3 && i<addressPrefixRanges.size(); i++) {
 			if(i!=0)
 				ret += ", ";
-			ret += "(" + addressPrefixRanges.get(i).toString() + ")";
+			ret += addressPrefixRanges.get(i).toString();
     	}
     	
-    	if(addressPrefixRanges.size() > 3) //if more records than those listed, add dots
-    		return ret + ", ...]";
-    	else
-    		return ret + "]";
+    	if (addressPrefixRanges.size()==0) //if no ranges were printed, we're done
+    		return ret;
+    	
+    	else { //ranges were printed. Close the square bracket, optionally adding dots
+    		return ret + ((addressPrefixRanges.size() > 3) ? ", ...}" : "}"); //add dots if records were left out
+    	}
+//    	if(addressPrefixRanges.size() > 3) //if more records than those listed, add dots
+//    		return ret + ", ...]";
+//    	
+//    		return ret + "]";
+//    	else
+//    		return ret;
     }
     
     @Override
