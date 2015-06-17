@@ -1,194 +1,289 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.rpsl4j</groupId>
-    <artifactId>rpsl4j</artifactId>
-    <version>1.80-SNAPSHOT</version>
-    <packaging>jar</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.rpsl4j</groupId>
+  <artifactId>rpsl4j-parser</artifactId>
+  <version>1.80</version>
+  <packaging>jar</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.10</version>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.7</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.10</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.googlecode.java-diff-utils</groupId>
-            <artifactId>diffutils</artifactId>
-            <version>1.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+  <name>rpsl4j parser library</name>
+  <description>A library devrived from RIPE's whois-client for parsing Routing Policy Specification
+    Language documents</description>
+  <url>https://github.com/rpsl4j/rpsl4j-parser</url>
+  <licenses>
+    <license>
+      <name>GNU Affero General Public License, Version 3.0</name>
+      <url>https://www.gnu.org/licenses/agpl-3.0.en.html</url>
+    </license>
+  </licenses>
 
-    <build>
-        <plugins>
-            <!-- Set Java7 as source/target for compilation -->
+  <developers>
+   <developer>
+     <name>Benjamin Roberts</name>
+     <email>benjamin.roberts@anu.edu.au</email>
+     <organization>rpsl4j</organization>
+     <organizationUrl>https://github.com/tsujamin</organizationUrl>
+   </developer>
+   <developer>
+     <name>Nathan Kelly</name>
+     <email>u5348836@anu.edu.au</email>
+     <organization>rpsl4j</organization>
+     <organizationUrl>https://github.com/nathankelly</organizationUrl>
+   </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git@github.com:rpsl4j/rpsl4j-parser.git</connection>
+    <developerConnection>scm:git:git@github.com:rpsl4j/rpsl4j-parser.git</developerConnection>
+    <url>git@github.com:rpsl4j/rpsl4j-parser.git</url>
+  </scm>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.10</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.7</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.10</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>18.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.java-diff-utils</groupId>
+      <artifactId>diffutils</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.4</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Set Java7 as source/target for compilation -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <!-- FindBugs Static Analysis -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.5.2</version>
+        <configuration>
+          <effort>Max</effort>
+          <threshold>Low</threshold>
+          <failOnError>true</failOnError>
+          <includeFilterFile>${session.executionRootDirectory}/.findbugs/security-include.xml</includeFilterFile>
+          <excludeFilterFile>${session.executionRootDirectory}/.findbugs/security-exclude.xml</excludeFilterFile>
+          <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.2</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>1.2.0</version>
             </plugin>
-            <!-- FindBugs Static Analysis -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>2.5.2</version>
-                <configuration>
-                    <effort>Max</effort>
-                    <threshold>Low</threshold>
-                    <failOnError>true</failOnError>
-                    <includeFilterFile>${session.executionRootDirectory}/.findbugs/security-include.xml</includeFilterFile>
-                    <excludeFilterFile>${session.executionRootDirectory}/.findbugs/security-exclude.xml</excludeFilterFile>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.h3xstream.findsecbugs</groupId>
-                            <artifactId>findsecbugs-plugin</artifactId>
-                            <version>1.2.0</version>
-                        </plugin>
-                    </plugins>
-                </configuration>
-            </plugin>
+          </plugins>
+        </configuration>
+      </plugin>
+      <!-- Victims Enforcer Dependency Check
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.1.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>com.redhat.victims</groupId>
+            <artifactId>enforce-victims-rule</artifactId>
+            <version>1.3.4</version>
+            <type>jar</type>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>enforce-victims-rule</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule implementation="com.redhat.victims.VictimsRule">
+                  <!-\-
+                    Valid options are:
 
-            <!-- Victims Enforcer Dependency Check
-            <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-enforcer-plugin</artifactId>
-              <version>1.1.1</version>
-              <dependencies>
-                <dependency>
-                  <groupId>com.redhat.victims</groupId>
-                  <artifactId>enforce-victims-rule</artifactId>
-                  <version>1.3.4</version>
-                  <type>jar</type>
-                </dependency>
-              </dependencies>
-              <executions>
-                <execution>
-                  <id>enforce-victims-rule</id>
-                    <goals>
-                      <goal>enforce</goal>
-                    </goals>
-                    <configuration>
-                      <rules>
-                        <rule implementation="com.redhat.victims.VictimsRule">
-                          <!-\-
-                            Valid options are:
+                    disabled: Rule is still run but only INFO level messages aand no errors.
+                    warning : Rule will spit out a warning message but doesn't result in a failure.
+                    fatal   : Rule will spit out an error message and fail the build.
+                  -\->
+                  <metadata>warning</metadata>
 
-                            disabled: Rule is still run but only INFO level messages aand no errors.
-                            warning : Rule will spit out a warning message but doesn't result in a failure.
-                            fatal   : Rule will spit out an error message and fail the build.
-                          -\->
-                          <metadata>warning</metadata>
+                  <!-\-
+                    Valid options are:
 
-                          <!-\-
-                            Valid options are:
+                    disabled: Rule is still run but only INFO level messages aand no errors.
+                    warning : Rule will spit out a warning message but doesn't result in a failure.
+                    fatal   : Rule will spit out an error message and fail the build.
+                  -\->
+                  <fingerprint>fatal</fingerprint>
 
-                            disabled: Rule is still run but only INFO level messages aand no errors.
-                            warning : Rule will spit out a warning message but doesn't result in a failure.
-                            fatal   : Rule will spit out an error message and fail the build.
-                          -\->
-                          <fingerprint>fatal</fingerprint>
+                  <!-\-
+                    Valid options are:
 
-                          <!-\-
-                            Valid options are:
-
-                            auto  : Automatically update the database entries on each build.
-                            daily : Update the database entries once per day.
-                            weekly: Update the database entries once per week.
-                            offline   : Disable the synchronization mechanism.
-                          -\->
-                          <updates>weekly</updates>
-                        </rule>
-                      </rules>
-                    </configuration>
-                  </execution>
-                </executions>
-            </plugin> -->
-            <!-- Generate attribute lexers and parsers -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>src/main/parser/bin/generateByaccs</executable>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>de.jflex</groupId>
-                <artifactId>maven-jflex-plugin</artifactId>
-                <version>1.4.3-r1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <lexDefinitions>
-                                <lexDefinition>src/main/parser/jflex</lexDefinition>
-                            </lexDefinitions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+                    auto  : Automatically update the database entries on each build.
+                    daily : Update the database entries once per day.
+                    weekly: Update the database entries once per week.
+                    offline   : Disable the synchronization mechanism.
+                  -\->
+                  <updates>weekly</updates>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin> -->
+      <!-- Generate attribute lexers and parsers -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>src/main/parser/bin/generateByaccs</executable>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>de.jflex</groupId>
+        <artifactId>maven-jflex-plugin</artifactId>
+        <version>1.4.3-r1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <lexDefinitions>
+                <lexDefinition>src/main/parser/jflex</lexDefinition>
+              </lexDefinitions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- build java source and docs -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Sign artifacts with GPG key-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+            <configuration>
+              <keyname>0x036FA654</keyname>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Sonatype deployment -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>false</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
