@@ -6,6 +6,7 @@ import net.ripe.db.whois.common.domain.CIString;
 
 import javax.annotation.concurrent.Immutable;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +40,59 @@ public class MntRoutes {
         return addressPrefixRanges;
     }
 
+    @Override
+    public int hashCode() { //TODO: untested
+    	long hashSum = 0;
+    	for(AddressPrefixRange a : addressPrefixRanges) {
+    		hashSum += a.hashCode(); //compute hash sum manually, to simulate the behaviour of hashSet; ignore list order
+    	}
+    	return (toString() + hashSum).hashCode(); //combine as strings, then hash
+    }
+    
+    @Override
+    public String toString() { //TODO: untested
+    	String ret = "MntRoutes (maintainer:" + maintainer + ", anyRange:" + (anyRange?"yes)":"no) {");
+    	
+    	for(int i=0; i<3 && i<addressPrefixRanges.size(); i++) {
+			if(i!=0)
+				ret += ", ";
+			ret += addressPrefixRanges.get(i).toString();
+    	}
+    	
+    	if (addressPrefixRanges.size()==0) //if no ranges were printed, we're done
+    		return ret;
+    	
+    	else { //ranges were printed. Close the square bracket, optionally adding dots
+    		return ret + ((addressPrefixRanges.size() > 3) ? ", ...}" : "}"); //add dots if records were left out
+    	}
+//    	if(addressPrefixRanges.size() > 3) //if more records than those listed, add dots
+//    		return ret + ", ...]";
+//    	
+//    		return ret + "]";
+//    	else
+//    		return ret;
+    }
+    
+    @Override
+    public boolean equals(final Object o) { //TODO: untested
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof MntRoutes))
+    		return false;
+    	else {
+    		final MntRoutes that = (MntRoutes) o;
+    		
+    		//using HashSets here so as to disregard the order of the maintainer routes in the source lists.
+    		final HashSet<AddressPrefixRange> thisAPR = new HashSet<AddressPrefixRange>();
+    		final HashSet<AddressPrefixRange> thatAPR = new HashSet<AddressPrefixRange>();
+    		
+    		thisAPR.addAll(addressPrefixRanges);
+    		thatAPR.addAll(that.addressPrefixRanges);
+    		
+    		return maintainer.equals(that.maintainer) && anyRange==that.anyRange && thisAPR.equals(thatAPR);
+    	}
+    }
+    
     public static MntRoutes parse(final CIString value) {
         return parse(value.toString());
     }

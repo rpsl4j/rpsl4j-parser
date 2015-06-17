@@ -7,6 +7,7 @@ import net.ripe.db.whois.common.ip.Ipv6Resource;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.concurrent.Immutable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -31,6 +32,40 @@ public class Domain {
         this.isDashNotation = dashNotation;
     }
 
+    @Override
+    public String toString() { //TODO: no tests written yet. Edit: reverseIP apparently not set for ipv6 addresses. Updated..
+    	if(type.equals(Type.E164))
+    		return value.toString() + "(" + type.toString() + " " + (isDashNotation ? "dashed" : "not-dashed") + ")";
+    	else
+    		return value.toString() + "(" + reverseIp.toString() + " " + type.toString() + " " + (isDashNotation ? "dashed" : "not-dashed") + ")";
+    }
+    
+    @Override
+    public boolean equals(final Object o) { //TODO: write tests for this
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof Domain))
+    		return false;
+    	else {
+    		final Domain that = (Domain) o;
+    		//TODO: DEBUGGING
+    		//System.out.println("Null list for entity'" + value + "':" + (value==null?"value ":" ")+(reverseIp==null?"reverseIp ":" ")+(type==null?"type ":" "));
+    		
+    		//in the case of ipv6 addresses, reverseIp will not be available.. it seems
+    		//if(reverseIp==null)
+    		if(type.equals(Type.E164)) //if E164, reverseIP will not apply
+    			return value.equals(that.value) && type.equals(that.type) && isDashNotation==that.isDashNotation;
+    		else
+    			return value.equals(that.value) && reverseIp.equals(that.reverseIp) && type.equals(that.type) && isDashNotation==that.isDashNotation;
+    		//note that CIString is case insensitive for equals(). This is probably a good thing here, given dns names are also case insensitive.. at least to cut a long story short..
+    	}
+    }
+    
+    @Override
+    public int hashCode() { //TODO: no tests yet 
+    	return toString().hashCode();
+    }
+    
     public CIString getValue() {
         return value;
     }

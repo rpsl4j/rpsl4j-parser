@@ -1,12 +1,14 @@
 package net.ripe.db.whois.common.rpsl.attrs;
 
 import net.ripe.db.whois.common.domain.CIString;
+
 import org.joda.time.IllegalFieldValueException;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import javax.annotation.CheckForNull;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +61,23 @@ public class Changed {
         return result.toString();
     }
 
+    @Override
+    public int hashCode() { //TODO: this is new code I think
+    	return this.toString().hashCode();
+    }
+    
+    @Override
+    public boolean equals(final Object o) { //TODO: this is new code I think
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof Changed))
+    		return false;
+    	else {
+    		final Changed that = (Changed) o;
+    		return date.equals(that.date) && email.equals(that.email);
+    	}
+    }
+    
     public static Changed parse(final CIString value) {
         return parse(value.toString());
     }

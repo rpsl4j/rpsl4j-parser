@@ -15,6 +15,28 @@ public class IPAddress {
         return ipInterval;
     }
 
+    @Override
+    public boolean equals(final Object o) { //TODO: untested
+    	if(o == this)
+    		return true;
+    	if(o == null || !(o instanceof IPAddress))
+    		return false;
+    	else {
+    		final IPAddress that = (IPAddress) o;
+    		return ipInterval.equals(that.ipInterval);
+    	}
+    }
+    
+    @Override
+    public String toString() { //TODO: no tests yet
+    	return ipInterval.toString();
+    }
+    
+    @Override
+    public int hashCode() { //TODO: no tests yet
+    	return ipInterval.hashCode();
+    }
+    
     public static IPAddress parse(final CIString value) {
         return parse(value.toString());
     }

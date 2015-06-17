@@ -1,11 +1,13 @@
 package net.ripe.db.whois.common.rpsl.attrs;
 
 import com.google.common.base.Splitter;
+
 import net.ripe.db.whois.common.domain.CIString;
 import net.ripe.db.whois.common.ip.IpInterval;
 import net.ripe.db.whois.common.ip.Ipv4Resource;
 
 import javax.annotation.CheckForNull;
+
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
@@ -52,6 +54,23 @@ public final class NServer {
         return s.toString();
     }
 
+    @Override
+    public int hashCode(){ //TODO: untested
+    	return toString().hashCode();
+    }
+    
+    @Override
+    public boolean equals(final Object o) { //TODO: untested
+    	if(o==this)
+    		return true;
+    	if(o==null || !(o instanceof NServer))
+    		return false;
+    	else {
+    		final NServer that = (NServer) o;
+    		return hostname.equals(that.hostname) && ipInterval.equals(that.ipInterval); //case insensitive hostname
+    	}
+    }
+    
     public static NServer parse(final CIString value) {
         return parse(value.toString());
     }

@@ -28,7 +28,24 @@ public final class AddressPrefixRange {
     public RangeOperation getRangeOperation() {
         return rangeOperation;
     }
-
+    
+    @Override
+    public boolean equals(final Object o) { //TODO: new and untested
+    	if(o == this)
+    		return true;
+    	if (o == null || !(o instanceof AddressPrefixRange))
+    		return false;
+    	else {
+    		final AddressPrefixRange that = (AddressPrefixRange) o;
+    		return value.equals(that.value); //all other member variables are derived from 'value', in parse(), before this object is instantiated
+    	}
+    }
+    
+    @Override
+    public int hashCode() { //TODO: new and untested
+    	return value.hashCode();
+    }
+    
     @Override
     public String toString() {
         return value;

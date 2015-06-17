@@ -3,6 +3,7 @@ package net.ripe.db.whois.common.rpsl.attrs;
 import net.ripe.db.whois.common.domain.CIString;
 
 import javax.annotation.concurrent.Immutable;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,31 @@ public class AutNum {
         return value;
     }
 
+    @Override
+    public boolean equals(final Object o) //TODO: new and untested
+    {
+    	if (o == this)
+    		return true;
+    	if(o == null || !(o instanceof AutNum))
+    		return false;
+    	else {
+    		final AutNum that = (AutNum) o; 
+    		return value.equals(that.value);
+    	}
+    }
+    
+    @Override
+    public int hashCode()
+    {
+    	return value.hashCode();
+    }
+    
+    @Override
+    public String toString()
+    {
+    	return "AS"+value;
+    }
+    
     public static AutNum parse(final CIString value) {
         return parse(value.toString());
     }
