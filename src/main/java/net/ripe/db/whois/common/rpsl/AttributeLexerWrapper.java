@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -238,9 +239,8 @@ public class AttributeLexerWrapper {
 			return lexer.parse(new StringReader(attr.toString()));
  
 		} catch (IOException e) {
-			System.err.println("IO error parsing attribute: " + attr.toString());
+			//System.err.println("IO error parsing attribute: " + attr.toString());
+			return Arrays.asList(Pair.of(attr.getType().getName(), Arrays.asList(attr.getValue())));
 		}
-		
-		return new LinkedList<Pair<String, List<String>>>();
 	}
 }
