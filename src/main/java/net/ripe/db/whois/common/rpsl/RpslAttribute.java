@@ -77,7 +77,6 @@ public final class RpslAttribute {
     
     /**
      * Return the list of tokens captured by {@link AttributeLexerWrapper} in the attribute instance
-     * If the attribute has no parser class, an empty list is returned
      * @see AttributeLexerWrapper#parse(java.io.Reader)
      */
     public List<Pair<String, List<String>>> getTokenList() {

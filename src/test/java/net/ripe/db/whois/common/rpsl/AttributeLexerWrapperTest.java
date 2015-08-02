@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.List;
 
 import net.ripe.db.whois.common.rpsl.AttributeType;
@@ -82,20 +83,23 @@ public class AttributeLexerWrapperTest {
 		assertTrue("Opening with token doesn't inadvertently capture rest of attribute", ast.get(0).getRight().size() == 1);
 	}
 	
-	@Test(expected=ClassNotFoundException.class)
-	public void throwsOnMissingLexerClass() throws ClassNotFoundException {
-		RpslAttribute attr = new RpslAttribute(AttributeType.ADDRESS, "1 Road Street, Town");
-		AttributeLexerWrapper.parse(attr);
-	}
-	
-	@Test
-	public void emptyonAttributeMissingLexerClass() throws ClassNotFoundException {
-		RpslAttribute attr = new RpslAttribute(AttributeType.ADDRESS, "1 Road Street, Town");
-		assertTrue("Token list for attribute without lexer should be empty", attr.getTokenList().size() == 0);
-	}
-	
 	public void parseAttribute() throws ClassNotFoundException {
 		RpslAttribute attr = new RpslAttribute(AttributeType.IMPORT, importString);
 		assertEquals("Parser genereated abmormal output", expectedImportTree, attr.getTokenList().toString());
+	}
+	
+	@Test
+	public void returnsTokenListForAbsentLexerClass() {
+		RpslAttribute attr = new RpslAttribute(AttributeType.ADDRESS, "1 Road Street, Town");
+		List<Pair<String, List<String>>> correctTokenList = Arrays.asList(
+				Pair.of("address", Arrays.asList("1 Road Street, Town")));
+		assertEquals("Attributes without lexer should return simple tokenList representation",
+				correctTokenList, attr.getTokenList());
+		
+		attr = new RpslAttribute(AttributeType.MNT_BY, "Person A, Person B");
+		correctTokenList = Arrays.asList(
+				Pair.of("mnt-by", Arrays.asList("Person A", "Person B")));
+		assertEquals("Multivalued attributes without lexer should return simple tokenList representation",
+				correctTokenList, attr.getTokenList());
 	}
 }

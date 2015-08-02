@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import net.ripe.db.whois.common.domain.CIString;
+
 import org.apache.commons.lang3.text.WordUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -228,19 +230,33 @@ public class AttributeLexerWrapper {
 	}
 	
 	/**
-	 * Parse an {@link RpslAttribute} object 
+	 * Parse an {@link RpslAttribute} object
+	 * If the lexer class is not found for the provided attribute, a simple token list is built
+	 * from the attribute ie: [(Attr-Type, [cleanValues...])]
 	 * @see AttributeLexerWrapper#parse(Reader)
 	 * @return representation of the parsed text or empty list.
-	 * @throws ClassNotFoundException no lexer/parser class exists for this attribute type
 	 */
 	public static List<Pair<String, List<String>>> parse(RpslAttribute attr) throws ClassNotFoundException{
 		try {
 			AttributeLexerWrapper lexer = new AttributeLexerWrapper(attr.getType().getName());
 			return lexer.parse(new StringReader(attr.toString()));
  
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			//System.err.println("IO error parsing attribute: " + attr.toString());
-			return Arrays.asList(Pair.of(attr.getType().getName(), Arrays.asList(attr.getValue())));
+			if(attr.getCleanValues().size() > 1) {
+				//Case for multiple values
+				List<String> values = new LinkedList<String>();
+				for(CIString val : attr.getCleanValues())
+					values.add(val.toString());
+				
+				return Arrays.asList(Pair.of(attr.getType().getName(), values));
+			} else if (attr.getCleanValues().size() == 1) {
+				//One value
+				return Arrays.asList(Pair.of(attr.getType().getName(), Arrays.asList(attr.getCleanValue().toString())));
+			} else {
+				//No value
+				return Arrays.asList();
+			}
 		}
 	}
 }
