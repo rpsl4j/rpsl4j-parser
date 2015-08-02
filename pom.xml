@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.rpsl4j</groupId>
   <artifactId>rpsl4j-parser</artifactId>
-  <version>1.81</version>
+  <version>1.82-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>rpsl4j parser library</name>
