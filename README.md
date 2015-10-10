@@ -24,14 +24,14 @@ You can also use `RpslObjectFileReader` or the more general `RpslObjectStreamRea
 
 ### Read the attributes of the RPSL object ###
 ```java
-RpslObject routeSetExample = RpslObject.parse("route: 1.1.1.0/24\n
-origin: AS1\n mnt-by MNT-EXAMPLE # Need to change owner\n");
+RpslObject routeExample = RpslObject.parse("route: 1.1.1.0/24\n
+origin: AS1\n mnt-by: MNT-EXAMPLE # Need to change owner\n");
 
 // The value of the class attribute is retrieved as follows
-RpslAttribute routePrefixAttr = routeSetExample.getTypeAttribute();
+RpslAttribute routePrefixAttr = routeExample.getTypeAttribute();
 
 // The value of a specific attribute can be retrieved using the AttributeType enumerator
-RpslAttribute originASAttr = routeSetExample.findAttribute(AttributeType.ORIGIN);
+RpslAttribute originASAttr = routeExample.findAttribute(AttributeType.ORIGIN);
 
 // Many attribute types have corresponding classes that provide useful encapsulation and functionality.
 // Refer to the net.ripe.db.whois.common.rpsl.attrs package
@@ -39,8 +39,8 @@ RpslAttribute originASAttr = routeSetExample.findAttribute(AttributeType.ORIGIN)
 AutNum originAS = AutNum.parse(originAsAttr.getCleanValue());
 AddressPrefixRange routePrefix = AddressPrefixRange.parse(routePrefixAttr.getCleanValue());
 
-// If you want to full text of an attribute (including comments etc), use RpslAttribute#getValue() instead of RpslAttribute#getCleanValue()
-System.out.println(routeSetExample.findAttribute(AttributeType.MNT_BY).getValue());
+// If you want the full text of an attribute (including comments etc), use RpslAttribute#getValue() instead of RpslAttribute#getCleanValue()
+System.out.println(routeExample.findAttribute(AttributeType.MNT_BY).getValue());
 ```
 
 ### Using the generated lexers to inspect complex attributes ###
@@ -74,7 +74,7 @@ for(Pair<String, List<String>> tokenPair : exportAttribute.getTokenList()) {
 ```
 
 `AttributeLexerWrapper` works by generating a table of lexer states and their corresponding token names via reflection, then running the lexer over an attribute; recording tokens and runs of values.
-Unfortunately there is no easy way of predetermining the structure of a token list without thoroughly studying the attributes corresponding lexer.
+Unfortunately there is no easy way of predetermining the structure of a token list without thoroughly studying the attribute's corresponding lexer.
 The best approach at present is by experiment and testing.
 
 _refer to the rpsl4j-generator library for more complex uses of AttributeLexerWrapper._
